@@ -40,19 +40,6 @@ class DefaultTabControllerScaffold extends StatelessWidget {
                 PrecipitationWidget(),
                 MinMaxTemperatureWidget(),
                 WindroseWidget(),
-                /*
-                WindroseChartWidget(
-                  data: const {
-                    WindDirection.N: 50,
-                    WindDirection.NE: 30,
-                    WindDirection.E: 70,
-                    WindDirection.SE: 20,
-                    WindDirection.S: 80,
-                    WindDirection.SW: 48,
-                    WindDirection.W: 160,
-                    WindDirection.NW: 87,
-                  },
-                ),*/
               ],
             ),
           ),
