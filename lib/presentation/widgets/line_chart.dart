@@ -24,7 +24,7 @@ class _LineChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Color color1 = const Color(0xFF00C853);
-    Color color2 = const Color(0xFF00C853);
+    Color color2 = const Color(0xFF0053C8);
     Color colorGrid = const Color(0xFF00C853).withOpacity(0.3);
 
     final paintLine1 = Paint()
