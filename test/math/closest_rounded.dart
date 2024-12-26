@@ -15,9 +15,9 @@ void main() {
     test('closestRounded(${testCase[0]}, ${testCase[1]}) should be ${testCase[2]}', () {
       //Arrange
       //Act
-      final result = closestRoundedNumber(testCase[0].toDouble(), testCase[1] as int);
+      final result = closestRoundedNumber(testCase[0].toDouble(), testCase[1]);
       //Assert
-      expect(result, testCase[2] as int);
+      expect(result, testCase[2]);
     });
   }
 }

@@ -149,7 +149,7 @@ class HttpDatasource extends MeasurementsDatasource {
         break;
       default:
         return null;
-    };
+    }
     if (windDirection == null) return null;
 
     double? precipitation;

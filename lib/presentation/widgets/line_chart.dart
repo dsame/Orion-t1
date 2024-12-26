@@ -23,9 +23,9 @@ class _LineChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Color color1 = Color(0xFF00C853);
-    Color color2 = Color(0xFF00C853);
-    Color colorGrid = Color(0xFF00C853).withOpacity(0.3);
+    Color color1 = const Color(0xFF00C853);
+    Color color2 = const Color(0xFF00C853);
+    Color colorGrid = const Color(0xFF00C853).withOpacity(0.3);
 
     final paintLine1 = Paint()
       ..color = color1
@@ -42,7 +42,7 @@ class _LineChartPainter extends CustomPainter {
       ..strokeWidth = 1.0
       ..style = PaintingStyle.stroke;
 
-    final double margin = 20.0;
+    const double margin = 20.0;
 
     // Draw grid lines
     for (double i = margin; i < size.height; i += 40) {

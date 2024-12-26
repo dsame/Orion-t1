@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:main/ca/domain/weather_entities.dart';
 import 'package:main/presentation/viewmodels/minmax_temperature.dart';
 import 'package:main/presentation/widgets/line_chart.dart';

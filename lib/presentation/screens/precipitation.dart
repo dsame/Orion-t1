@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:main/presentation/viewmodels/precipitation.dart';
 import 'package:main/presentation/widgets/bar_chart.dart';
 import 'package:provider/provider.dart';

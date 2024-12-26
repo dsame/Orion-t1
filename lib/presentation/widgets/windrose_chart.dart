@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:main/math/closest_rounded.dart';
 
 import '../../ca/domain/weather_entities.dart';
@@ -44,7 +43,7 @@ class _WindRosePainter extends CustomPainter {
       ..color = Colors.blue.withOpacity(0.2)
       ..style = PaintingStyle.fill;
 
-    final circleLabelStyle = TextStyle(color: Colors.black, fontSize: 14);
+    const circleLabelStyle = TextStyle(color: Colors.black, fontSize: 14);
 
     // geometry dimensions
     final double radius = min(size.width, size.height) / 2 - 40;
@@ -117,7 +116,7 @@ class _WindRosePainter extends CustomPainter {
       // label strength
       labelPainter.text = TextSpan(
         text: entry.value.toStringAsFixed(1),
-        style: TextStyle(color: Colors.red, fontSize: 12),
+        style: const TextStyle(color: Colors.red, fontSize: 12),
       );
       labelPainter.layout(minWidth: 0, maxWidth: size.width);
       labelPainter.paint(canvas, strengthLabelOffset);

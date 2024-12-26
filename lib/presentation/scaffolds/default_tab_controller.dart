@@ -3,10 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:main/presentation/screens/minmax_temperature.dart';
 import 'package:main/presentation/screens/precipitation.dart';
 
-import '../../ca/domain/weather_entities.dart';
 import '../screens/windrose.dart';
-import '../widgets/bar_chart.dart';
-import '../widgets/windrose_chart.dart';
 
 class DefaultTabControllerScaffold extends StatelessWidget {
   const DefaultTabControllerScaffold({super.key});
@@ -38,11 +35,11 @@ class DefaultTabControllerScaffold extends StatelessWidget {
                     )),
               ],
             ),
-            body: TabBarView(
+            body: const TabBarView(
               children: [
-                const PrecipitationWidget(),
-                const MinMaxTemperatureWidget(),
-                const WindroseWidget(),
+                PrecipitationWidget(),
+                MinMaxTemperatureWidget(),
+                WindroseWidget(),
                 /*
                 WindroseChartWidget(
                   data: const {

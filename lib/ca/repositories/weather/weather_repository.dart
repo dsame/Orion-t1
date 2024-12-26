@@ -15,6 +15,6 @@ class WeatherRepository {
   WeatherRepository(this._measurementsProvider);
 
   Future<List<MeasurementModel>> getMeasurementsForLast7Days() async {
-    return _measurementsProvider.get(DateTime.now().subtract(Duration(days: 7)), DateTime.now());
+    return _measurementsProvider.get(DateTime.now().subtract(const Duration(days: 7)), DateTime.now());
   }
 }
