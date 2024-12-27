@@ -175,4 +175,4 @@ manually[⤴](https://github.com/dsame/orion-t1/blob/2a35827429472afa3c892557161
 
 - Others:
 - [ ] "Nice numbers" are too naive, tend to be bigger than needed, should be improved.
-- [ ] Android doesn't obey safe area insets.
+- [x] Android doesn't obey safe area insets.

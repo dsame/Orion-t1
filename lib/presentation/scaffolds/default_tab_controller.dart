@@ -12,7 +12,7 @@ class DefaultTabControllerScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
           length: 3,
-          child: Scaffold(
+          child: SafeArea(child: Scaffold(
             bottomNavigationBar: TabBar(
               tabs: [
                 Tab(
@@ -42,7 +42,7 @@ class DefaultTabControllerScaffold extends StatelessWidget {
                 WindroseWidget(),
               ],
             ),
-          ),
+          )),
         ); //const MyHomePage(title: 'Flutter Demo Home Page'),
   }
 }
