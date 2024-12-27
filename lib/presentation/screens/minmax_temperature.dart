@@ -32,27 +32,48 @@ class MinMaxTemperatureWidget extends StatelessWidget {
 }
 
 class MinMaxTemperatureSuccessWidget extends StatelessWidget {
-  final Map<DayOfWeek, MinMaxTemperature> measurements;
+  final List<MinMaxTemperature> measurements;
 
   const MinMaxTemperatureSuccessWidget({super.key, required this.measurements});
 
   @override
   Widget build(BuildContext context) {
     // the data from the service can have missing days
-    // I sanitize it here because it is matter of UI
-    // how to show missing data
-    final List<double> min = List.generate(
-            7,
-            (index) =>
-                measurements[DayOfWeekExt.fromIntZero(index)]?.min ?? 0.0)
-        .map((e) => e == double.negativeInfinity ? 0.0 : e)
-        .toList();
-    final List<double> max = List.generate(
-            7,
-            (index) =>
-                measurements[DayOfWeekExt.fromIntZero(index)]?.max ?? 0.0)
-        .map((e) => e == double.infinity ? 0.0 : e)
-        .toList();
+    // They should be sanitized here because it is matter of UI
+    // how to show missing data, currently they replaced with zeros
+    final List<double> min = List.filled( measurements.length, 0.0);
+    final List<double> max = List.filled( measurements.length, 0.0);
+    final List<String> labels = List.filled( measurements.length, '');
+
+    var index = 0;
+    measurements.forEach((measurement) {
+      labels[index] = DayOfWeekExt.fromDateTime(measurement.day).toShortLabel();
+      min[index] = measurement.min;
+      max[index] = measurement.max;
+      index++;
+    });
     return LineChartWidget(line1Data: min, line2Data: max);
   }
 }
+/*
+extension on DayOfWeek {
+  String toShortLabel() {
+    switch (this) {
+      case DayOfWeek.MON:
+        return 'Mon';
+      case DayOfWeek.TUE:
+        return 'Tue';
+      case DayOfWeek.WED:
+        return 'Wed';
+      case DayOfWeek.THU:
+        return 'Thu';
+      case DayOfWeek.FRI:
+        return 'Fri';
+      case DayOfWeek.SAT:
+        return 'Sat';
+      case DayOfWeek.SUN:
+        return 'Sun';
+    }
+  }
+}
+ */

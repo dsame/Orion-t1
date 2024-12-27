@@ -8,6 +8,12 @@ library weather_repository;
 enum DayOfWeek { MON, TUE, WED, THU, FRI, SAT, SUN }
 
 extension DayOfWeekExt on DayOfWeek {
+  static DayOfWeek fromIntZero(int day) {
+    return DayOfWeek.values[day];
+  }
+  static DayOfWeek fromDateTime(DateTime date) {
+    return DayOfWeek.values[date.weekday - 1];
+  }
   String toShortLabel() {
     switch(this) {
       case DayOfWeek.MON:
@@ -25,13 +31,6 @@ extension DayOfWeekExt on DayOfWeek {
       case DayOfWeek.SUN:
         return 'Sun';
     }
-  }
-
-  static DayOfWeek fromIntZero(int day) {
-    return DayOfWeek.values[day];
-  }
-  static DayOfWeek fromDateTime(DateTime date) {
-    return DayOfWeek.values[date.weekday - 1];
   }
 }
 
