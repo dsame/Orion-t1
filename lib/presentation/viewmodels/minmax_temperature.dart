@@ -5,6 +5,7 @@ import '../../ca/domain/weather_entities.dart';
 import '../../ca/domain/weather_service.dart';
 import 'resource.dart';
 
+// VM Factory
 class MinMaxTemperatureVmProvider extends StatelessWidget {
   final Widget child;
 
@@ -23,11 +24,12 @@ class MinMaxTemperatureVmProvider extends StatelessWidget {
   }
 }
 
+// VM
 class MinMaxTemperatureViewModel with ChangeNotifier {
   final WeatherService _weatherService;
-  Resource<Map<DayOfWeek, MinMaxTemperature>> _measurements = ResourceLoading();
+  Resource<List<MinMaxTemperature>> _measurements = ResourceLoading();
 
-  Resource<Map<DayOfWeek, MinMaxTemperature>> get measurements => _measurements;
+  Resource<List<MinMaxTemperature>> get measurements => _measurements;
 
   MinMaxTemperatureViewModel(this._weatherService);
 

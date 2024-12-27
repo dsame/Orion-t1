@@ -3,8 +3,9 @@ import 'package:flutter/widgets.dart';
 class LineChartWidget extends StatelessWidget {
   final List<double> line1Data;
   final List<double> line2Data;
+  final List<String> labels;
 
-  const LineChartWidget({super.key, required this.line1Data, required this.line2Data});
+  const LineChartWidget({super.key, required this.line1Data, required this.line2Data, this.labels = const []});
 
   @override
   Widget build(BuildContext context) {

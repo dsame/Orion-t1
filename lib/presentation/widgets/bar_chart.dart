@@ -1,25 +1,32 @@
 import 'package:flutter/widgets.dart';
 
+const int _V_PADDING = 4;
+
 // TODO: is should not add padding to left and right side of the chart
 class BarChartWidget extends StatelessWidget {
   // double presentation of data for sake of flexibility
   final List<double> _data;
+  final List<String> _labels;
 
-  const BarChartWidget({super.key, required List<double>data}): _data = data;
+  const BarChartWidget(
+      {super.key, required List<double> data, List<String> labels = const []})
+      : _data = data,
+        _labels = labels;
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-        size: const Size(double.infinity, double.infinity),
-        painter: _BarChartPainter(_data),
+      size: const Size(double.infinity, double.infinity),
+      painter: _BarChartPainter(_data, _labels),
     );
   }
 }
 
 class _BarChartPainter extends CustomPainter {
   final List<double> _data;
+  final List<String> _labels;
 
-  _BarChartPainter(data): _data = data;
+  _BarChartPainter(data, labels) : _data = data, _labels = labels;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -39,7 +46,8 @@ class _BarChartPainter extends CustomPainter {
     );
 
     // loop invariants
-    final maxDataValue = _data.isNotEmpty ? _data.reduce((a, b) => a > b ? a : b) : 1;
+    final maxDataValue =
+        _data.isNotEmpty ? _data.reduce((a, b) => a > b ? a : b) : 1;
     final barWidth = size.width / _data.length;
     final rectWidth = barWidth * 0.8;
     final offset = (barWidth - rectWidth) / 2;
@@ -53,7 +61,7 @@ class _BarChartPainter extends CustomPainter {
     final textHeight = textPainter.height + 1; // 1 is fix for rounding error
 
     // calculate scale factor
-    final maxBarHeight = size.height - textHeight;
+    final maxBarHeight = size.height - textHeight - textHeight - _V_PADDING - _V_PADDING;
     final double scaleFactor = maxBarHeight / maxDataValue;
 
     // draw bars
@@ -64,16 +72,17 @@ class _BarChartPainter extends CustomPainter {
 
       // draw a bar
       final rect = Rect.fromLTWH(
-        i * barWidth+offset,               // x position
-        size.height - barHeight,    // y position
-        rectWidth,             // bar width (80% of allocated width)
-        barHeight,                  // bar height
+        i * barWidth + offset, // x position
+        size.height - barHeight - _V_PADDING, // y position
+        rectWidth, // bar width (80% of allocated width)
+        barHeight, // bar height
       );
       canvas.drawRect(rect, barPaint);
 
-      // draw a label
+      // draw a top label
       textPainter.text = TextSpan(
         text: _data[i].toStringAsFixed(1),
+        // TODO: hardcoded style
         style: const TextStyle(color: textColor, fontSize: 12),
       );
       textPainter.layout(minWidth: 0, maxWidth: barWidth);
@@ -82,6 +91,21 @@ class _BarChartPainter extends CustomPainter {
       final textY = y - textPainter.height - 4;
       textPainter.layout(minWidth: 0, maxWidth: barWidth);
       textPainter.paint(canvas, Offset(textX, textY));
+
+      // draw a bottom label
+      if (i < _labels.length) {
+        textPainter.text = TextSpan(
+          text: _labels[i],
+          // TODO: hardcoded style
+          style: const TextStyle(color: textColor, fontSize: 12),
+        );
+        textPainter.layout(minWidth: 0, maxWidth: barWidth);
+
+        final textX = x + rectWidth / 2 - textPainter.width / 2;
+        final textY = size.height - textHeight;
+        textPainter.layout(minWidth: 0, maxWidth: barWidth);
+        textPainter.paint(canvas, Offset(textX, size.height - _V_PADDING));
+      }
     }
   }
 

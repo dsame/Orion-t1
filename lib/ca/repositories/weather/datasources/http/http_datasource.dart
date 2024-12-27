@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
+import 'package:main/types/pair.dart';
 
 import '../../models/measurement.dart';
 import '../measurements_datasource.dart';
@@ -175,5 +176,40 @@ class HttpDatasource extends MeasurementsDatasource {
       windDirection: windDirection,
       precipitation: precipitation,
     );
+  }
+
+  @override
+  Future<List<Pair<DateTime, List<MeasurementModel>>>> getGroupByDate(DateTime from, DateTime to) async {
+    List<MeasurementModel> measurements = await get(from, to);
+
+    List<Pair<DateTime, List<MeasurementModel>>> grouped = [];
+    // ignore: avoid_init_to_null
+    DateTime? currentDay = null;
+
+    for (var measurement in measurements) {
+      final day = DateTime(measurement.timestamp.year, measurement.timestamp.month, measurement.timestamp.day);
+      if (day != currentDay) {
+        currentDay = day;
+        grouped.add(Pair(currentDay, []));
+      }
+      grouped.last.second.add(measurement);
+    }
+
+    return grouped;
+  }
+
+  @override
+  Future<List<Pair<DateTime, Pair<double, double>>>> getMinMaxTemperatureGroupByDate(DateTime from, DateTime to) async {
+    List<Pair<DateTime, List<MeasurementModel>>> grouped = await getGroupByDate(from, to);
+
+    return grouped.map((e) {
+      double min = double.infinity;
+      double max = double.negativeInfinity;
+      for (var measurement in e.second) {
+        min = min < measurement.temperature ? min : measurement.temperature;
+        max = max > measurement.temperature ? max : measurement.temperature;
+      }
+      return Pair(e.first, Pair(min, max));
+    }).toList();
   }
 }

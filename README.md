@@ -161,6 +161,7 @@ manually[⤴](https://github.com/dsame/orion-t1/blob/2a35827429472afa3c892557161
     - [ ] The paddings should be added to the container.
     - [ ] Top labels seem to be cut off by 1px.
     - [ ] Labels (days of the week) at the bottom should be added.
+    - [ ] Hardcoded text style should be replaced with the theme.
 
 - Line chart:
     - [x] Min/max should have different colors.

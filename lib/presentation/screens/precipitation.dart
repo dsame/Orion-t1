@@ -32,19 +32,22 @@ class PrecipitationWidget extends StatelessWidget {
 }
 
 class PrecipitationWidgetSuccess extends StatelessWidget {
-  final Map<DayOfWeek, double> _precipitations;
+  final List<DayPrecipitation> _precipitations;
 
   const PrecipitationWidgetSuccess({super.key, required precipitations})
       : _precipitations = precipitations;
 
   @override
   Widget build(BuildContext context) {
-    // the data from the service can have missing days
-    // I sanitize it here because it is matter of UI
-    // how to show missing data
-    final List<double> data = List.generate(7,
-            (index) => _precipitations[DayOfWeekExt.fromIntZero(index)] ?? 0.0)
-        .toList();
-    return BarChartWidget(data: data);
+    final List<double> data = List.filled(_precipitations.length, 0);
+    final List<String> labels = List.filled(_precipitations.length, '');
+
+    var index = 0;
+    _precipitations.forEach((dayPrecipitation) {
+      labels[index] = DayOfWeekExt.fromDateTime(dayPrecipitation.day).toString();
+      data[index] = dayPrecipitation.precipitation;
+      index++;
+    });
+    return BarChartWidget(data: data, labels: labels);
   }
 }

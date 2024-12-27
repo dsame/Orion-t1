@@ -1,5 +1,5 @@
-///  This class defines the interface for all the measurments providers
-///  that will be used to get the measurments data from the different sources
+///  This class defines the interface for all the measurements providers
+///  that will be used to get the measurements data from the different sources
 ///
 ///   The API is assumed to be as simple as possible, and not to be responsible
 ///   for providing correct data, but to provide the data as it is.
@@ -17,48 +17,17 @@ class WeatherService {
   WeatherService(this._weatherRepository);
 
   // fetches the measurements for the last 7 days
-  // and calculates the min and max temperature for each day
+  // and converts the repository model to the domain entity
   // @returns the list of MinMaxTemperature
   //          with some days missing if there is no data
-  Future<Map<DayOfWeek, MinMaxTemperature>>
-      getMinMaxTemperatureLast7Days() async {
-    final measurements = await _weatherRepository.getMeasurementsForLast7Days();
-
-    // 1st step: group by day of the week and find min and max temperature
-    //           as a list of 2 elements [min, max]
-    // 2st step: convert to the map with MinMaxTemperature
-    // Reasoning for the 2 steps: MinMaxTemperature is an immutable class
-    // and thus has to be allocated on each update, while the intermediate
-    // lists of min/max temperatures can be updated in place
-
-    // map day->(min, max) is represented as a list of 14 elements [min1, max1, min2, max2, ...]
-    List dayToMinMax = List.generate(14,
-        (index) => index % 2 == 0 ? double.infinity : double.negativeInfinity);
-    for (var measurement in measurements) {
-      final temperature = measurement.temperature;
-      final dayOfWeek = measurement.timestamp.weekday;
-      final dayOffset = (dayOfWeek - 1) * 2;
-      if (temperature < dayToMinMax[dayOffset]) {
-        dayToMinMax[dayOffset] = temperature;
-      }
-      if (temperature > dayToMinMax[dayOffset + 1]) {
-        dayToMinMax[dayOffset + 1] = temperature;
-      }
-    }
-
-    // 2nd step
-    return Map.unmodifiable(Map.fromEntries(
-      List.generate(7, (index) {
-        final dayOfWeek = DayOfWeekExt.fromIntZero(index);
-        return MapEntry(
-          dayOfWeek,
-          MinMaxTemperature(
-            dayToMinMax[index * 2],
-            dayToMinMax[index * 2 + 1],
-          ),
-        );
-      }),
-    ));
+  Future<List<MinMaxTemperature>> getMinMaxTemperatureLast7Days() async {
+    return (await _weatherRepository
+            .getMinMaxTemperatureGroupByDateForLast7Days())
+        .map((pair) {
+      final min = pair.second.first;
+      final max = pair.second.second;
+      return MinMaxTemperature(pair.first, min, max);
+    }).toList();
   }
 
   // Fetches the measurements for the last 7 days
@@ -77,25 +46,17 @@ class WeatherService {
     return Map.unmodifiable(windRose);
   }
 
-  // Fetches the measurements for the last 7 days
+  // Fetches the measurements for the last 7 days grouped by a day
   // and calculates the total amount of precipitation for each day
   // @returns the total amount of precipitation for each day
-  Future<Map<DayOfWeek, double>> getTotalPrecipitationLast7Days() async {
-    final measurements = await _weatherRepository.getMeasurementsForLast7Days();
-
-    List<double> dayToPrecipitation = List.filled(7, 0);
-    for (var measurement in measurements) {
-      final dayOfWeek = measurement.timestamp.weekday - 1;
-      dayToPrecipitation[dayOfWeek] += measurement.precipitation;
-    }
-
-    return Map.unmodifiable(Map.fromEntries(
-      List.generate(7, (index) {
-        return MapEntry(
-          DayOfWeekExt.fromIntZero(index),
-          dayToPrecipitation[index],
-        );
-      }),
-    ));
+  Future<List<DayPrecipitation>> getTotalPrecipitationLast7Days() async {
+    return (await _weatherRepository.getMeasurementGroupByDateForLast7Days())
+        .map((pair) {
+      final day = pair.first;
+      final measurements = pair.second;
+      final totalPrecipitation = measurements.fold<double>(
+          0, (previousValue, element) => previousValue + element.precipitation);
+      return DayPrecipitation(day, totalPrecipitation);
+    }).toList();
   }
 }

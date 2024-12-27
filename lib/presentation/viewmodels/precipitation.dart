@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../ca/domain/weather_service.dart';
 
+// VM Factory
 class PrecipitationVmProvider extends StatelessWidget {
   final Widget child;
 
@@ -23,13 +24,14 @@ class PrecipitationVmProvider extends StatelessWidget {
   }
 }
 
+// VM
 class PrecipitationViewModel with ChangeNotifier {
   final WeatherService _weatherService;
 
   PrecipitationViewModel(this._weatherService);
 
-  Resource<Map<DayOfWeek, double>> _precipitations = ResourceLoading();
-  Resource<Map<DayOfWeek, double>> get precipitations => _precipitations;
+  Resource<List<DayPrecipitation>> _precipitations = ResourceLoading();
+  Resource<List<DayPrecipitation>> get precipitations => _precipitations;
 
   Future<void> init() {
     return _refresh();

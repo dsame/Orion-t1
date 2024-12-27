@@ -11,13 +11,24 @@ extension DayOfWeekExt on DayOfWeek {
   static DayOfWeek fromIntZero(int day) {
     return DayOfWeek.values[day];
   }
+  static DayOfWeek fromDateTime(DateTime date) {
+    return DayOfWeek.values[date.weekday - 1];
+  }
 }
 
 class MinMaxTemperature {
+  final DateTime day;
   final double min;
   final double max;
 
-  MinMaxTemperature(this.min, this.max);
+  MinMaxTemperature(this.day, this.min, this.max);
+}
+
+class DayPrecipitation {
+  final DateTime day;
+  final double precipitation;
+
+  DayPrecipitation(this.day, this.precipitation);
 }
 
 enum WindDirection { N, NE, E, SE, S, SW, W, NW }
