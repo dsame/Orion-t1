@@ -11,38 +11,39 @@ class DefaultTabControllerScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-          length: 3,
-          child: SafeArea(child: Scaffold(
-            bottomNavigationBar: TabBar(
-              tabs: [
-                Tab(
-                    icon: SvgPicture.asset(
-                      'assets/chart_bar.svg', // Path to your SVG asset
-                      height: 24.0, // You can adjust the size
-                      width: 24.0, // You can adjust the size
-                    )),
-                Tab(
-                    icon: SvgPicture.asset(
-                      'assets/chart_lines.svg', // Path to your SVG asset
-                      height: 24.0, // You can adjust the size
-                      width: 24.0, // You can adjust the size
-                    )),
-                Tab(
-                    icon: SvgPicture.asset(
-                      'assets/chart_windrose.svg', // Path to your SVG asset
-                      height: 24.0, // You can adjust the size
-                      width: 24.0, // You can adjust the size
-                    )),
-              ],
-            ),
-            body: const TabBarView(
-              children: [
-                PrecipitationWidget(),
-                MinMaxTemperatureWidget(),
-                WindroseWidget(),
-              ],
-            ),
-          )),
-        ); //const MyHomePage(title: 'Flutter Demo Home Page'),
+      length: 3,
+      child: SafeArea(
+          child: Scaffold(
+        bottomNavigationBar: TabBar(
+          tabs: [
+            Tab(
+                icon: SvgPicture.asset(
+              'assets/chart_bar.svg', // Path to your SVG asset
+              height: 24.0, // You can adjust the size
+              width: 24.0, // You can adjust the size
+            )),
+            Tab(
+                icon: SvgPicture.asset(
+              'assets/chart_lines.svg', // Path to your SVG asset
+              height: 24.0, // You can adjust the size
+              width: 24.0, // You can adjust the size
+            )),
+            Tab(
+                icon: SvgPicture.asset(
+              'assets/chart_windrose.svg', // Path to your SVG asset
+              height: 24.0, // You can adjust the size
+              width: 24.0, // You can adjust the size
+            )),
+          ],
+        ),
+        body: const TabBarView(
+          children: [
+            PrecipitationWidget(),
+            MinMaxTemperatureWidget(),
+            WindroseWidget(),
+          ],
+        ),
+      )),
+    ); //const MyHomePage(title: 'Flutter Demo Home Page'),
   }
 }
