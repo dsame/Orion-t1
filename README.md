@@ -157,10 +157,10 @@ manually[⤴](https://github.com/dsame/orion-t1/blob/2a35827429472afa3c892557161
     - [ ] Colors are hardcoded
 
 - Bar chart:
-    - [ ] The left and right padding should be removed from the painter area.
+    - [x] The left and right padding should be removed from the painter area.
     - [ ] The paddings should be added to the container.
-    - [ ] Top labels seem to be cut off by 1px.
-    - [ ] Labels (days of the week) at the bottom should be added.
+    - [x] Top labels seem to be cut off by 1px.
+    - [x] Labels (days of the week) at the bottom should be added.
     - [ ] Hardcoded text style should be replaced with the theme.
 
 - Line chart:

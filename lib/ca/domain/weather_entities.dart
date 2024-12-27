@@ -8,6 +8,25 @@ library weather_repository;
 enum DayOfWeek { MON, TUE, WED, THU, FRI, SAT, SUN }
 
 extension DayOfWeekExt on DayOfWeek {
+  String toShortLabel() {
+    switch(this) {
+      case DayOfWeek.MON:
+        return 'Mon';
+      case DayOfWeek.TUE:
+        return 'Tue';
+      case DayOfWeek.WED:
+        return 'Wed';
+      case DayOfWeek.THU:
+        return 'Thu';
+      case DayOfWeek.FRI:
+        return 'Fri';
+      case DayOfWeek.SAT:
+        return 'Sat';
+      case DayOfWeek.SUN:
+        return 'Sun';
+    }
+  }
+
   static DayOfWeek fromIntZero(int day) {
     return DayOfWeek.values[day];
   }

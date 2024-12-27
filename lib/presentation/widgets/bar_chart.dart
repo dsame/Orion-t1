@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-const int _V_PADDING = 4;
+// vertical space between bars and labels
+const int _V_SPACE = 4;
 
 // TODO: is should not add padding to left and right side of the chart
 class BarChartWidget extends StatelessWidget {
@@ -26,85 +27,106 @@ class _BarChartPainter extends CustomPainter {
   final List<double> _data;
   final List<String> _labels;
 
-  _BarChartPainter(data, labels) : _data = data, _labels = labels;
+  _BarChartPainter(data, labels)
+      : _data = data,
+        _labels = labels;
 
   @override
   void paint(Canvas canvas, Size size) {
+    // colors
     // TODO: get from theme or props
     const barColor = Color(0xFF00C853);
     const textColor = Color(0xFF000000);
-    const textStyle = TextStyle(color: textColor, fontSize: 12);
+
+    // known dimensions
+    final barWidth = size.width / (_data.length + 0.3 * (_data.length - 1));
+    final barOffset = barWidth * 0.3;
+    final maxDataValue =
+        _data.isNotEmpty ? _data.reduce((a, b) => a > b ? a : b) : 1;
 
     // painters
     final barPaint = Paint()
       ..color = barColor
       ..style = PaintingStyle.fill;
 
-    final textPainter = TextPainter(
+    final textTopLabelPainter = TextPainter(
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
     );
 
-    // loop invariants
-    final maxDataValue =
-        _data.isNotEmpty ? _data.reduce((a, b) => a > b ? a : b) : 1;
-    final barWidth = size.width / _data.length;
-    final rectWidth = barWidth * 0.8;
-    final offset = (barWidth - rectWidth) / 2;
+    final textBottomLabelPainter = TextPainter(
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
+
+    // text styles
+    const topLabelStyle = TextStyle(color: textColor, fontSize: 12);
+    const bottomLabelStyle = TextStyle(color: textColor, fontSize: 12);
+
+    textTopLabelPainter.text = const TextSpan(
+      text: "96.",
+      style: topLabelStyle,
+    );
+
+    textBottomLabelPainter.text = const TextSpan(
+      text: "96.",
+      style: bottomLabelStyle,
+    );
 
     // calculate label's height
-    textPainter.text = const TextSpan(
-      text: "96.",
-      style: textStyle,
-    );
-    textPainter.layout(minWidth: 0, maxWidth: barWidth);
-    final textHeight = textPainter.height + 1; // 1 is fix for rounding error
+    textTopLabelPainter.layout(minWidth: 0, maxWidth: barWidth);
+    final textTopHeight =
+        textTopLabelPainter.height; // 1 is fix for rounding error
+
+    textBottomLabelPainter.layout(minWidth: 0, maxWidth: barWidth);
+    final textBottomHeight =
+        textBottomLabelPainter.height; // 1 is fix for rounding error
 
     // calculate scale factor
-    final maxBarHeight = size.height - textHeight - textHeight - _V_PADDING - _V_PADDING;
+    final maxBarHeight =
+        size.height - textTopHeight - textBottomHeight - _V_SPACE - _V_SPACE;
     final double scaleFactor = maxBarHeight / maxDataValue;
 
     // draw bars
     for (int i = 0; i < _data.length; i++) {
+      // per bar dimensions
       final double barHeight = _data[i] * scaleFactor;
-      final double x = i * barWidth + offset;
-      final double y = size.height - barHeight;
+      final double barLeft = i * barWidth + i * barOffset;
+      final double barTop = size.height - textTopHeight - barHeight;
 
       // draw a bar
       final rect = Rect.fromLTWH(
-        i * barWidth + offset, // x position
-        size.height - barHeight - _V_PADDING, // y position
-        rectWidth, // bar width (80% of allocated width)
+        barLeft, // x position
+        barTop, // y position
+        barWidth, // bar width (80% of allocated width)
         barHeight, // bar height
       );
       canvas.drawRect(rect, barPaint);
 
       // draw a top label
-      textPainter.text = TextSpan(
+      textTopLabelPainter.text = TextSpan(
         text: _data[i].toStringAsFixed(1),
-        // TODO: hardcoded style
-        style: const TextStyle(color: textColor, fontSize: 12),
+        style: topLabelStyle,
       );
-      textPainter.layout(minWidth: 0, maxWidth: barWidth);
+      textTopLabelPainter.layout(minWidth: 0, maxWidth: barWidth);
 
-      final textX = x + rectWidth / 2 - textPainter.width / 2;
-      final textY = y - textPainter.height - 4;
-      textPainter.layout(minWidth: 0, maxWidth: barWidth);
-      textPainter.paint(canvas, Offset(textX, textY));
+      final textTopX = barLeft + barWidth / 2 - textTopLabelPainter.width / 2;
+      final textTopY = barTop - textTopLabelPainter.height - 4;
+      textTopLabelPainter.layout(minWidth: 0, maxWidth: barWidth);
+      textTopLabelPainter.paint(canvas, Offset(textTopX, textTopY));
 
       // draw a bottom label
       if (i < _labels.length) {
-        textPainter.text = TextSpan(
+        textBottomLabelPainter.text = TextSpan(
           text: _labels[i],
-          // TODO: hardcoded style
-          style: const TextStyle(color: textColor, fontSize: 12),
+          style: bottomLabelStyle,
         );
-        textPainter.layout(minWidth: 0, maxWidth: barWidth);
+        textBottomLabelPainter.layout(minWidth: 0, maxWidth: barWidth);
 
-        final textX = x + rectWidth / 2 - textPainter.width / 2;
-        final textY = size.height - textHeight;
-        textPainter.layout(minWidth: 0, maxWidth: barWidth);
-        textPainter.paint(canvas, Offset(textX, size.height - _V_PADDING));
+        final textBottomX =
+            barLeft + barWidth / 2 - textBottomLabelPainter.width / 2;
+        final textBottomY = size.height - textBottomLabelPainter.height;
+        textBottomLabelPainter.paint(canvas, Offset(textBottomX, textBottomY));
       }
     }
   }

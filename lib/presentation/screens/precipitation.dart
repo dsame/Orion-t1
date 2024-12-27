@@ -44,7 +44,8 @@ class PrecipitationWidgetSuccess extends StatelessWidget {
 
     var index = 0;
     _precipitations.forEach((dayPrecipitation) {
-      labels[index] = DayOfWeekExt.fromDateTime(dayPrecipitation.day).toString();
+      labels[index] =
+          DayOfWeekExt.fromDateTime(dayPrecipitation.day).toShortLabel();
       data[index] = dayPrecipitation.precipitation;
       index++;
     });
