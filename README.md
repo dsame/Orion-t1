@@ -170,9 +170,9 @@ manually[⤴](https://github.com/dsame/orion-t1/blob/2a35827429472afa3c892557161
 
 - Windrose:
 - [ ] Wrong scale of the wind vertices. The vertices are too small.
-- [ ] Circles' color should be brighter.
+- [x] Circles' color should be brighter.
 - [ ] WE & WS labels are wrongly placed.
-- [ ] Polygon is not filled correctly.
+- [x] Polygon is not filled correctly.
 
 - Others:
 - [ ] "Nice numbers" are too naive, tend to be bigger than needed, should be improved.

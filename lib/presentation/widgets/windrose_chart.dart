@@ -12,7 +12,7 @@ class WindroseChartWidget extends StatelessWidget {
   final int _maxStrength;
 
   WindroseChartWidget({super.key, required Map<WindDirection, double> data})
-      : _data = data,
+      : _data = sanitizeData(data),
         _maxStrength =
             closestRoundedNumber(data.values.reduce(max), _CIRCLE_COUNT);
 
@@ -22,6 +22,20 @@ class WindroseChartWidget extends StatelessWidget {
       size: const Size(300, 300),
       painter: _WindRosePainter(_data, _maxStrength),
     );
+  }
+
+  static Map<WindDirection, double> sanitizeData(Map<WindDirection, double> data) {
+    Map<WindDirection, double> sanitizedData = {
+      WindDirection.N: data[WindDirection.N] ?? 0.0,
+      WindDirection.NE: data[WindDirection.NE] ?? 0.0,
+      WindDirection.E: data[WindDirection.E] ?? 0.0,
+      WindDirection.SE: data[WindDirection.SE] ?? 0.0,
+      WindDirection.S: data[WindDirection.S] ?? 0.0,
+      WindDirection.SW: data[WindDirection.SW] ?? 0.0,
+      WindDirection.W: data[WindDirection.W] ?? 0.0,
+      WindDirection.NW: data[WindDirection.NW] ?? 0.0,
+    };
+    return sanitizedData;
   }
 }
 
@@ -54,7 +68,7 @@ class _WindRosePainter extends CustomPainter {
       final double currentRadius = radius * i / _CIRCLE_COUNT;
 
       final circlePaint = Paint()
-        ..color = Colors.grey.withOpacity(0.2)
+        ..color = Colors.grey.withOpacity(0.5)
         ..style = PaintingStyle.stroke;
 
       canvas.drawCircle(center, currentRadius, circlePaint);
@@ -113,15 +127,17 @@ class _WindRosePainter extends CustomPainter {
         center.dy + (length + 10) * sin(angle),
       );
 
-      // label strength
-      labelPainter.text = TextSpan(
-        text: entry.value.toStringAsFixed(1),
-        style: const TextStyle(color: Colors.red, fontSize: 12),
-      );
-      labelPainter.layout(minWidth: 0, maxWidth: size.width);
-      labelPainter.paint(canvas, strengthLabelOffset);
+      if (entry.value > 0.1) {
+        // label strength
+        labelPainter.text = TextSpan(
+          text: entry.value.toStringAsFixed(1),
+          style: const TextStyle(color: Colors.red, fontSize: 12),
+        );
+        labelPainter.layout(minWidth: 0, maxWidth: size.width);
+        labelPainter.paint(canvas, strengthLabelOffset);
 
-      canvas.drawLine(center, endpoint, linePaint);
+        canvas.drawLine(center, endpoint, linePaint);
+      }
     }
 
     path.addPolygon(points, true);
