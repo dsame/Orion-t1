@@ -147,11 +147,15 @@ manually[⤴](https://github.com/dsame/orion-t1/blob/2a35827429472afa3c892557161
 - I want to add the "Refresh" button to the screens and "Polling mode" to automatically refresh the data. Can 1 work day
   be approved for this?
 - I want to add the reactive source of the data (e.g., WebSocket). Does it make sense?
+- The task assumes up to 7 days of data, but the sample JSON suggests the data for 1 day.
+  I generate the data for the next days — is it acceptable?
+- I believe that grouping and aggregation can be performed more effectively on the server side rather than on the
+  application level. Does the team agree?
 
 ## Known issues & TODOs
 
 - ViewModels/Data:
-    - [ ] Days of the week are completely erased, they should be kept and shown.
+    - [x] Days of the week are completely erased, they should be kept and shown.
 
 - Theming:
     - [ ] Colors are hardcoded
@@ -169,11 +173,11 @@ manually[⤴](https://github.com/dsame/orion-t1/blob/2a35827429472afa3c892557161
     - [ ] Measurements should be labeled.
 
 - Windrose:
-- [ ] Wrong scale of the wind vertices. The vertices are too small.
+- [x] Wrong scale of the wind vertices. The vertices are too small.
 - [x] Circles' color should be brighter.
-- [ ] WE & WS labels are wrongly placed.
+- [x] WE & WS labels are wrongly placed.
 - [x] Polygon is not filled correctly.
 
 - Others:
-- [ ] "Nice numbers" are too naive, tend to be bigger than needed, should be improved.
+- [x] "Nice numbers" are too naive, tend to be bigger than needed, should be improved.
 - [x] Android doesn't obey safe area insets.

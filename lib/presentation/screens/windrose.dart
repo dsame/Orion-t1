@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../viewmodels/resource.dart';
 import '../viewmodels/windrose.dart';
-import '../widgets/windrose_chart.dart';
+import '../widgets/radar_chart.dart';
 
 class WindroseWidget extends StatelessWidget {
   const WindroseWidget({super.key});
@@ -37,6 +37,7 @@ class WindroseSuccess extends StatelessWidget {
     final Map<WindDirection, double> windroseData =
         _windrose.map((key, value) => MapEntry(key, value.toDouble()));
 
-    return WindroseChartWidget(data: windroseData);
+    return RadarChartWidget(
+        data: windroseData, formatRadius: (double v) => v.toStringAsFixed(0), formatVertex: (double v) => '${v.toStringAsFixed(0)}',);
   }
 }

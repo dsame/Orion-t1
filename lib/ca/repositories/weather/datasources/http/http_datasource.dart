@@ -63,17 +63,16 @@ class HttpDatasource extends MeasurementsDatasource {
     // next day, same hour, random minutes
     DateTime timestamp = DateTime(seed.timestamp.year, seed.timestamp.month,
         seed.timestamp.day + 1, seed.timestamp.hour, randomMinutes, 0);
-    // temperature +- 30%
+    // temperature +- 15%
     double temperature =
         seed.temperature + (_rnd.nextDouble() - 0.5) * seed.temperature * 0.3;
-    // wind speed +- 20%
-    int windSpeed = max(
+    // wind speed +- 50%
+    double windSpeed = max(
         0,
-        (seed.windSpeed + (_rnd.nextDouble() - 0.5) * seed.windSpeed * 0.2)
-            .toInt());
+        seed.windSpeed + (_rnd.nextDouble() - 0.5) * seed.windSpeed);
     int windDirection =
         max(0, seed.windDirection + _rnd.nextInt(180) - 90) % 360;
-    // precipitation +- 50%
+    // precipitation +- 25%
     double precipitation = max(
         0,
         seed.precipitation +
@@ -121,16 +120,16 @@ class HttpDatasource extends MeasurementsDatasource {
     Map<String, dynamic>? wind = json['wind'];
     if (wind == null) return null;
 
-    int? windSpeed;
+    double? windSpeed;
     switch(wind['speed']) {
       case int i:
-        windSpeed = i;
+        windSpeed = i.toDouble();
         break;
       case double d:
-        windSpeed = d.toInt();
+        windSpeed = d;
         break;
       case String s:
-        windSpeed = int.tryParse(s);
+        windSpeed = double.tryParse(s);
         break;
       default:
         return null;

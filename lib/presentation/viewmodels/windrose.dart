@@ -45,3 +45,4 @@ class WindroseViewModel with ChangeNotifier {
     notifyListeners();
   }
 }
+

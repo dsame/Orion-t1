@@ -12,6 +12,7 @@ class DefaultTabControllerScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
+      initialIndex: 2,
       child: SafeArea(
           child: Scaffold(
         bottomNavigationBar: TabBar(

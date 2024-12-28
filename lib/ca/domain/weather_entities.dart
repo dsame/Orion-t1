@@ -56,6 +56,27 @@ extension WindDirectionExt on WindDirection {
     final index = ((degrees + 22.5) % 360) ~/ 45;
     return WindDirection.values[index];
   }
+
+  String toShortLabel() {
+    switch(this) {
+      case WindDirection.N:
+        return 'N';
+      case WindDirection.NE:
+        return 'NE';
+      case WindDirection.E:
+        return 'E';
+      case WindDirection.SE:
+        return 'SE';
+      case WindDirection.S:
+        return 'S';
+      case WindDirection.SW:
+        return 'SW';
+      case WindDirection.W:
+        return 'W';
+      case WindDirection.NW:
+        return 'NW';
+    }
+  }
 }
 
 class WindRose {

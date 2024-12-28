@@ -1,7 +1,7 @@
 class MeasurementModel {
   final DateTime timestamp;
   final double temperature;
-  final int windSpeed;
+  final double windSpeed;
   final int windDirection;
   final double precipitation;
 
