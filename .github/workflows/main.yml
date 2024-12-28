@@ -23,7 +23,7 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter test
-      - run: flutter build web
+      - run: flutter build web --pwa-strategy=none
       - uses: pocket-apps/action-setup-firebase@v2
         with:
           firebase-token: ${{ secrets.FIREBASE_TOKEN }}
