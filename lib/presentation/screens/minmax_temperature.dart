@@ -46,12 +46,12 @@ class MinMaxTemperatureSuccessWidget extends StatelessWidget {
     final List<String> labels = List.filled( measurements.length, '');
 
     var index = 0;
-    measurements.forEach((measurement) {
+    for (var measurement in measurements) {
       labels[index] = DayOfWeekExt.fromDateTime(measurement.day).toShortLabel();
       min[index] = measurement.min;
       max[index] = measurement.max;
       index++;
-    });
+    }
     return LineChartWidget(line1Data: min, line2Data: max);
   }
 }
