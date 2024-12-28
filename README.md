@@ -169,8 +169,8 @@ manually[⤴](https://github.com/dsame/orion-t1/blob/2a35827429472afa3c892557161
 
 - Line chart:
     - [x] Min/max should have different colors.
-    - [ ] Grid lines should be labeled.
-    - [ ] Measurements should be labeled.
+    - [x] Grid lines should be labeled.
+    - [x] Measurements should be labeled.
 
 - Windrose:
 - [x] Wrong scale of the wind vertices. The vertices are too small.
@@ -181,3 +181,9 @@ manually[⤴](https://github.com/dsame/orion-t1/blob/2a35827429472afa3c892557161
 - Others:
 - [x] "Nice numbers" are too naive, tend to be bigger than needed, should be improved.
 - [x] Android doesn't obey safe area insets.
+
+## Reference screenshots
+
+[![Precipitation](doc/bar.png)](doc/bar.png)
+[![MinMaxTemperature](doc/minmax.png)](doc/line.png)
+[![Windrose](doc/radar.png)](doc/radar.png)
