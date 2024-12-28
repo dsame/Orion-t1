@@ -10,16 +10,20 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/index.html",
+        "run": {
+            "serviceId": "orion-1",
+            "region": "europe-central2"
+        }
       }
     ],
     "headers": [
       {
-        "source": "**",
+        "source": "/**",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-store"
+            "value": "no-cache, no-store, must-revalidate, public, max-age=0"
           }
         ]
       }
