@@ -41,9 +41,9 @@ class MinMaxTemperatureSuccessWidget extends StatelessWidget {
     // the data from the service can have missing days
     // They should be sanitized here because it is matter of UI
     // how to show missing data, currently they replaced with zeros
-    final List<double> min = List.filled( measurements.length, 0.0);
-    final List<double> max = List.filled( measurements.length, 0.0);
-    final List<String> labels = List.filled( measurements.length, '');
+    final List<double> min = List.filled(measurements.length, 0.0);
+    final List<double> max = List.filled(measurements.length, 0.0);
+    final List<String> labels = List.filled(measurements.length, '');
 
     var index = 0;
     for (var measurement in measurements) {
@@ -52,6 +52,10 @@ class MinMaxTemperatureSuccessWidget extends StatelessWidget {
       max[index] = measurement.max;
       index++;
     }
-    return LineChartWidget(line1Data: min, line2Data: max);
+    return LineChartWidget(
+        line1Data: min,
+        line2Data: max,
+        labels: labels,
+        formatValue: (value) => value.toStringAsFixed(1));
   }
 }
